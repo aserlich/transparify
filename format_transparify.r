@@ -50,5 +50,6 @@ if(nrow(Dups) > 0){
 try2 <- try1[!duplicated(try1[, c("Rater", "TTName")]), ]
 dataWide <- dcast(try2,Rater ~ TTName, value.var="Score", fill =NA)
 write.csv(file="../krip_data/transpartifyWide.csv", dataWide)
-
-tpfyKrippAlpha <- kripp.alpha(x=try2[try2$Rater != "adj", 
+krippData <- as.matrix(dataWide[dataWide$Rater != "adj", 2:ncol(dataWide) ])
+tpfyKrippAlpha <- kripp.alpha(x=krippData, method ="ordinal") 
+write.csv(file=file.path("../krip_data/", paste0("transpartifyRating-", Sys.Date(), ".csv")))
